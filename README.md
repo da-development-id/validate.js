@@ -1,3 +1,15 @@
+FORKED:
+===
+Forked from ansman/validate.js to make it compatible with Lotus Domino SSJS.
+
+A shim/polyfill is needed to implement more current Array, Object and String functions that are needed for validate.js and will need to be included with an import to ensure load sequence.
+
+Example: 
+create another SSJS script with:
+
+import ssjs_polyfill
+import validatejs
+
 validate.js
 ===
 Validate.js provides a declarative way of validating javascript objects.
