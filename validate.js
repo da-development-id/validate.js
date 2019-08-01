@@ -40,8 +40,10 @@
   // used as sources.
   v.extend = function(obj) {
     [].slice.call(arguments, 1).forEach(function(source) {
-      for (var attr in source) {
-        obj[attr] = source[attr];
+      if(source) {
+        for (var attr in source) {
+          obj[attr] = source[attr];
+        }
       }
     });
     return obj;
@@ -459,7 +461,7 @@
         , escape = false;
 
       for (i = 0; i < keypath.length; ++i) {
-        switch (keypath[i]) {
+        switch (keypath.charAt(i)) {
           case '.':
             if (escape) {
               escape = false;
@@ -481,7 +483,7 @@
 
           default:
             escape = false;
-            key += keypath[i];
+            key += keypath.charAt(i);
             break;
         }
       }
@@ -594,7 +596,7 @@
       if (!v.isString(str)) {
         return str;
       }
-      return str[0].toUpperCase() + str.slice(1);
+      return str.charAt(0).toUpperCase() + str.slice(1);
     },
 
     // Remove all errors who's error attribute is empty (null or undefined)
@@ -1061,7 +1063,7 @@
         return message;
       }
     }, {
-      PATTERN: /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/i
+      PATTERN: new RegExp("^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$", "i")
     }),
     equality: function(value, options, attribute, attributes, globalOptions) {
       if (!v.isDefined(value)) {

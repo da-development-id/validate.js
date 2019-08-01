@@ -99,8 +99,10 @@ used as sources.</p>
             
             <div class="content"><div class='highlight'><pre>  v.extend = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
     [].slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">1</span>).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">source</span>) </span>{
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> attr <span class="hljs-keyword">in</span> source) {
-        obj[attr] = source[attr];
+      <span class="hljs-keyword">if</span>(source) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> attr <span class="hljs-keyword">in</span> source) {
+          obj[attr] = source[attr];
+        }
       }
     });
     <span class="hljs-keyword">return</span> obj;
@@ -126,7 +128,7 @@ The toString function will allow it to be coerced into a string</p>
       <span class="hljs-attr">major</span>: <span class="hljs-number">0</span>,
       <span class="hljs-attr">minor</span>: <span class="hljs-number">13</span>,
       <span class="hljs-attr">patch</span>: <span class="hljs-number">1</span>,
-      <span class="hljs-attr">metadata</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-attr">metadata</span>: <span class="hljs-string">"development"</span>,
       <span class="hljs-attr">toString</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
         <span class="hljs-keyword">var</span> version = v.format(<span class="hljs-string">"%{major}.%{minor}.%{patch}"</span>, v.version);
         <span class="hljs-keyword">if</span> (!v.isEmpty(v.version.metadata)) {
@@ -990,7 +992,7 @@ is neither an array nor a function.</p>
         , <span class="hljs-built_in">escape</span> = <span class="hljs-literal">false</span>;
 
       <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; keypath.length; ++i) {
-        <span class="hljs-keyword">switch</span> (keypath[i]) {
+        <span class="hljs-keyword">switch</span> (keypath.charAt(i)) {
           <span class="hljs-keyword">case</span> <span class="hljs-string">'.'</span>:
             <span class="hljs-keyword">if</span> (<span class="hljs-built_in">escape</span>) {
               <span class="hljs-built_in">escape</span> = <span class="hljs-literal">false</span>;
@@ -1012,7 +1014,7 @@ is neither an array nor a function.</p>
 
           <span class="hljs-keyword">default</span>:
             <span class="hljs-built_in">escape</span> = <span class="hljs-literal">false</span>;
-            key += keypath[i];
+            key += keypath.charAt(i);
             <span class="hljs-keyword">break</span>;
         }
       }
@@ -1137,7 +1139,7 @@ would return:
       <span class="hljs-keyword">if</span> (!v.isString(str)) {
         <span class="hljs-keyword">return</span> str;
       }
-      <span class="hljs-keyword">return</span> str[<span class="hljs-number">0</span>].toUpperCase() + str.slice(<span class="hljs-number">1</span>);
+      <span class="hljs-keyword">return</span> str.charAt(<span class="hljs-number">0</span>).toUpperCase() + str.slice(<span class="hljs-number">1</span>);
     },</pre></div></div>
             
         </li>
@@ -1863,7 +1865,7 @@ the time from the date</p>
         <span class="hljs-keyword">return</span> message;
       }
     }, {
-      <span class="hljs-attr">PATTERN</span>: <span class="hljs-regexp">/^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/i</span>
+      <span class="hljs-attr">PATTERN</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">"^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$"</span>, <span class="hljs-string">"i"</span>)
     }),
     <span class="hljs-attr">equality</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, options, attribute, attributes, globalOptions</span>) </span>{
       <span class="hljs-keyword">if</span> (!v.isDefined(value)) {
